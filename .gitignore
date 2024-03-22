@@ -1,0 +1,23 @@
+# npm
+node_modules/
+
+# tree-sitter targets
+*.gyp
+*.wasm
+index.js
+
+# python binding targets
+bindings/python3/build/
+build/
+bindings/python3/tree-sitter-jinja2/dist/
+bindings/python3/include/*.c
+bindings/python3/include/tree_sitter/
+bindings/python3/dist
+*.egg-info
+*.whl
+__pycache__/
+*.py[cod]
+
+# rust binding targets
+Cargo.lock
+target/
