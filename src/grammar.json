@@ -1,5 +1,5 @@
 {
-  "name": "jinja2",
+  "name": "jinja",
   "word": "identifier",
   "rules": {
     "source_file": {
@@ -9,7 +9,7 @@
         "name": "_node"
       }
     },
-    "_text": {
+    "text": {
       "type": "CHOICE",
       "members": [
         {
@@ -18,11 +18,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_not"
+          "name": "not"
         }
       ]
     },
-    "_not": {
+    "not": {
       "type": "CHOICE",
       "members": [
         {
@@ -56,13 +56,33 @@
         },
         {
           "type": "SYMBOL",
-          "name": "comment"
+          "name": "jinja_comment"
         },
         {
           "type": "SYMBOL",
-          "name": "_text"
+          "name": "text"
         }
       ]
+    },
+    "content": {
+      "type": "REPEAT",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_node"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "not"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "text"
+          }
+        ]
+      }
     },
     "statement": {
       "type": "SEQ",
@@ -170,7 +190,7 @@
         }
       ]
     },
-    "comment": {
+    "jinja_comment": {
       "type": "SEQ",
       "members": [
         {

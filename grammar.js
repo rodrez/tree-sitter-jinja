@@ -13,15 +13,14 @@
 //{% - if foo - %}...{% endif %}
 
 module.exports = grammar({
-  name: "jinja2",
+  name: "jinja",
 
   word: ($) => $.identifier,
 
   rules: {
     source_file: ($) => repeat($._node),
-
-    _text: ($) => choice(/[^{#%}]+/, $._not),
-    _not: ($) =>
+    text: ($) => choice(/[^{#%}]+/, $.not),
+    not: ($) =>
       choice(
         /[{]([^{#%]|)/,
         /([^}#%]|)[}]/,
@@ -29,8 +28,10 @@ module.exports = grammar({
         /([^{]|)%([^}]|)/,
       ),
 
-    _node: ($) => choice($.statement, $.expression, $.comment, $._text),
+    _node: ($) => choice($.statement, $.expression, $.jinja_comment, $.text),
 
+    // Content should be a sequence of nodes, anything _not and _text
+    content: ($) => repeat(choice($._node, $.not, $.text)),
     statement: ($) =>
       seq(
         $.statement_begin,
@@ -46,7 +47,7 @@ module.exports = grammar({
     expression_begin: ($) => seq("{{"),
     expression_end: ($) => seq("}}"),
 
-    comment: ($) => seq("{#", /[^#]*/, "#}"),
+    jinja_comment: ($) => seq("{#", /[^#]*/, "#}"),
 
     keyword: ($) =>
       choice(

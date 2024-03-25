@@ -1,7 +1,7 @@
 ==================
 list of string lits
 ==================
-
+<p> Paragraph </p>
 {{ ['a','bc','def'] }}
 
 ---
@@ -95,7 +95,7 @@ deeply nested lists and dicts
         (lit_string)
         (list
           (lit_string)
-          (dict 
+          (dict
             (pair
               (lit_string)
               (lit_string)
@@ -103,8 +103,8 @@ deeply nested lists and dicts
           )
         )
       )
-    ) 
-    (list 
+    )
+    (list
       (lit_string)
       (lit_string)
       (lit_string)

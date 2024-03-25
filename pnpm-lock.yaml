@@ -14,6 +14,9 @@ dependencies:
   tree-sitter:
     specifier: ^0.21.0
     version: 0.21.0
+  tree-sitter-html:
+    specifier: ^0.20.2
+    version: 0.20.2
 
 devDependencies:
   prebuildify:
@@ -86,6 +89,10 @@ packages:
   /mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
     dev: true
+
+  /nan@2.19.0:
+    resolution: {integrity: sha512-nO1xXxfh/RWNxfd/XPfbIfFk5vgLsAxUR9y5O0cHMJu/AW9U95JLXqthYHjEp+8gQ5p96K9jUp8nbVOxCdRbtw==}
+    dev: false
 
   /node-abi@3.56.0:
     resolution: {integrity: sha512-fZjdhDOeRcaS+rcpve7XuwHBmktS1nS1gzgghwKUQQ8nTy2FdSDr6ZT8k6YhvlJeHmmQMYiT/IH9hfco5zeW2Q==}
@@ -194,6 +201,13 @@ packages:
     hasBin: true
     requiresBuild: true
     dev: true
+
+  /tree-sitter-html@0.20.2:
+    resolution: {integrity: sha512-2bzbZE69yYXzq3gnqT09x48y/6HaWX8d2YL5po5UO+LEKFRXSGiOvalZ4S6lBse6DZbfcJrEffJdF+txFwO+LA==}
+    requiresBuild: true
+    dependencies:
+      nan: 2.19.0
+    dev: false
 
   /tree-sitter@0.21.0:
     resolution: {integrity: sha512-WDhpLxQdW7wsmmnBsf4NGqnEKs+Kxljk/CfbJJxgzZiinfA1gAWnhi/GirQjClw+woXhYsNq930BlskFulMMBQ==}
