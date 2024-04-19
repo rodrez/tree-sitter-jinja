@@ -1,7 +1,7 @@
 {
-  "name": "tree-sitter-jinja2",
+  "name": "tree-sitter-jinja",
   "version": "0.0.1",
-  "description": "jinja2 grammar for tree-sitter",
+  "description": "jinja grammar for tree-sitter",
   "main": "bindings/node",
   "types": "bindings/node",
   "keywords": [

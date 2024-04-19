@@ -1,16 +1,27 @@
-//{% ... %} for Statements
-
-//{{ ... }} for Expressions to print to the template output
-
-//{# ... #} for Comments not included in the template output
-
-//valid:
-
-//{%- if foo -%}...{% endif %}
-
-//invalid:
-
-//{% - if foo - %}...{% endif %}
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @return {SeqRule}
+ *
+ */
+function commaSep1(rule) {
+  return sep1(rule, ",");
+}
+/**
+ * Creates a rule to match one or more occurrences of `rule` separated by `sep`
+ *
+ * @param {RuleOrLiteral} rule
+ *
+ * @param {RuleOrLiteral} separator
+ *
+ * @return {SeqRule}
+ *
+ */
+function sep1(rule, separator) {
+  return seq(rule, repeat(seq(separator, rule)));
+}
 
 module.exports = grammar({
   name: "jinja",
@@ -20,7 +31,7 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($._node),
     text: ($) => choice(/[^{#%}]+/, $.not),
-    not: ($) =>
+    not: () =>
       choice(
         /[{]([^{#%]|)/,
         /([^}#%]|)[}]/,
@@ -41,15 +52,17 @@ module.exports = grammar({
       ),
     statement_begin: ($) => seq("{%", optional($.white_space_control)),
     statement_end: ($) => seq(optional($.white_space_control), "%}"),
+    params_begin: ($) => seq("(", optional($.white_space_control)),
+    params_end: ($) => seq(optional($.white_space_control), ")"),
 
     expression: ($) =>
       seq($.expression_begin, $._inner_text2, $.expression_end),
-    expression_begin: ($) => seq("{{"),
-    expression_end: ($) => seq("}}"),
+    expression_begin: () => seq("{{"),
+    expression_end: () => seq("}}"),
 
-    jinja_comment: ($) => seq("{#", /[^#]*/, "#}"),
+    jinja_comment: () => seq("{#", /[^#]*/, "#}"),
 
-    keyword: ($) =>
+    keyword: () =>
       choice(
         "for",
         "in",
@@ -86,13 +99,16 @@ module.exports = grammar({
         "debug",
         "do",
       ),
-    white_space_control: ($) => /[-+]/,
-    _white_space: ($) => /\s+/,
+    white_space_control: () => /[-+]/,
+    _white_space: () => /\s+/,
 
     _inner_text: ($) =>
       repeat1(
         choice(
           $.keyword,
+          $.float,
+          $.integer,
+          $.boolean,
           field("identifier", $.identifier),
           $._white_space,
           $.operator,
@@ -104,13 +120,23 @@ module.exports = grammar({
         choice(
           field("identifier", $.identifier),
           $._white_space,
+          $.float,
+          $.boolean,
+          $.integer,
           $.operator,
           $.string,
         ),
       ),
+    parameters: ($) => seq("(", optional($._parameters), ")"),
+    _parameters: ($) => seq(commaSep1($.parameter), optional(",")),
+    parameter: ($) => choice($.identifier),
+    integer: () => /-?\d+/,
+    float: () => /-?\d+\.\d+/,
+    boolean: () => choice("True", "False"),
+    identifier: () => /[\w_]+/,
+    operator: () => /[^\w_{#%}'"]+/,
+    string: () => /['"][^'"]*['"]/,
 
-    identifier: ($) => /[\w_]+/,
-    operator: ($) => /[^\w_{#%}'"]+/,
-    string: ($) => /['"][^'"]*['"]/,
+    // TODO: Extend the syntax to better match macro(param1, param2, ...)
   },
 });
