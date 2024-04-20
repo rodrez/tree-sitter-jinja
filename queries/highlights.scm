@@ -11,3 +11,5 @@
 (statement_end) @punctuation.special
 (expression_begin) @punctuation.special
 (expression_end) @punctuation.special
+(argument_list (identifier) @capture)
+(fn_call(identifier) @fn)

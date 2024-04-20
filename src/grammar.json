@@ -164,7 +164,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_inner_text2"
+          "name": "_inner_text"
         },
         {
           "type": "SYMBOL",
@@ -190,32 +190,32 @@
         }
       ]
     },
-    "parameters": {
+    "kwarg": {
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "params_begin"
+          "type": "FIELD",
+          "name": "key",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "parameter_list"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "STRING",
+          "value": "="
         },
         {
-          "type": "SYMBOL",
-          "name": "params_end"
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_inner_text"
+          }
         }
       ]
     },
-    "params_begin": {
+    "argument_list": {
       "type": "SEQ",
       "members": [
         {
@@ -226,25 +226,59 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "white_space_control"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_inner_text"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "kwarg"
+                    }
+                  ]
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "SYMBOL",
+                            "name": "_inner_text"
+                          },
+                          {
+                            "type": "SYMBOL",
+                            "name": "kwarg"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
             },
             {
               "type": "BLANK"
             }
           ]
-        }
-      ]
-    },
-    "params_end": {
-      "type": "SEQ",
-      "members": [
+        },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "white_space_control"
+              "type": "STRING",
+              "value": ","
             },
             {
               "type": "BLANK"
@@ -256,39 +290,6 @@
           "value": ")"
         }
       ]
-    },
-    "parameter_list": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "parameter"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "SYMBOL",
-                "name": "parameter"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "parameter": {
-      "type": "FIELD",
-      "name": "parameter",
-      "content": {
-        "type": "SYMBOL",
-        "name": "identifier"
-      }
     },
     "jinja_comment": {
       "type": "SEQ",
@@ -487,7 +488,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "parameters"
+            "name": "fn_call"
           },
           {
             "type": "FIELD",
@@ -517,10 +518,6 @@
       "content": {
         "type": "CHOICE",
         "members": [
-          {
-            "type": "SYMBOL",
-            "name": "parameters"
-          },
           {
             "type": "FIELD",
             "name": "identifier",
@@ -737,6 +734,27 @@
     "identifier": {
       "type": "PATTERN",
       "value": "[\\w_]+"
+    },
+    "fn_call": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "fn",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "args",
+          "content": {
+            "type": "SYMBOL",
+            "name": "argument_list"
+          }
+        }
+      ]
     }
   },
   "extras": [

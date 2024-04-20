@@ -44,28 +44,28 @@ module.exports = grammar({
     // Content should be a sequence of nodes, anything _not and _text
     content: ($) => repeat(choice($._node, $.not, $.text)),
     statement: ($) =>
-      seq($.statement_begin, $.keyword, optional($._expr), $.statement_end),
+      seq(
+        $.statement_begin,
+        $.keyword,
+        optional($._inner_text),
+        $.statement_end,
+      ),
     statement_begin: ($) => seq("{%", optional($.white_space_control)),
     statement_end: ($) => seq(optional($.white_space_control), "%}"),
 
-    expression: ($) => seq($.expression_begin, $._expr, $.expression_end),
+    expression: ($) => seq($.expression_begin, $._inner_text, $.expression_end),
     expression_begin: () => seq("{{"),
     expression_end: () => seq("}}"),
 
-    kwarg: ($) => seq(field("key", $.identifier), "=", field("value", $._expr)),
+    kwarg: ($) =>
+      seq(field("key", $.identifier), "=", field("value", $._inner_text)),
     argument_list: ($) =>
       seq(
         "(",
-        optional(commaSep1(choice($._expr, $.kwarg))),
+        optional(commaSep1(choice($._inner_text, $.kwarg))),
         optional(","),
         ")",
       ),
-    // parameters: ($) =>
-    //   seq($.params_begin, optional($.parameter_list), $.params_end),
-    // params_begin: ($) => seq("(", optional($.white_space_control)),
-    // params_end: ($) => seq(optional($.white_space_control), ")"),
-    // parameter_list: ($) => commaSep1($.parameter),
-    // parameter: ($) => field("parameter", $.identifier),
 
     jinja_comment: () => seq("{#", /[^#]*/, "#}"),
 
@@ -108,20 +108,20 @@ module.exports = grammar({
       ),
     white_space_control: () => /[-+]/,
     _white_space: () => /\s+/,
-    _expr: ($) =>
-      choice(
-        $.fn_call,
-        $.keyword,
-        $.list,
-        $.dict,
-        $.lit_string,
-        $.bool,
-        $.integer,
-        $.float,
-        $._white_space,
-        field("identifier", $.identifier),
-        $.operator,
-      ),
+    // _expr: ($) =>
+    //   choice(
+    //     $.fn_call,
+    //     $.keyword,
+    //     $.list,
+    //     $.dict,
+    //     $.string,
+    //     $.boolean,
+    //     $.integer,
+    //     $.float,
+    //     $._white_space,
+    //     field("identifier", $.identifier),
+    //     $.operator,
+    //   ),
     _inner_text: ($) =>
       repeat1(
         choice(
@@ -131,7 +131,7 @@ module.exports = grammar({
           $.boolean,
           $.list,
           $.dict,
-          $.parameters,
+          $.fn_call,
           field("identifier", $.identifier),
           $._white_space,
           $.operator,
@@ -141,7 +141,7 @@ module.exports = grammar({
     _inner_text2: ($) =>
       repeat1(
         choice(
-          $.parameters,
+          // $.parameters,
           field("identifier", $.identifier),
           $._white_space,
           $.float,
@@ -159,10 +159,16 @@ module.exports = grammar({
     operator: () => /[^\w_{#%}'"]+/,
     string: () => /['"][^'"]*['"]/,
 
-    list: ($) => seq("[", optional(commaSep1($._expr)), optional(","), "]"),
-    dict: ($) => seq("{", optional(commaSep1($._expr)), optional(","), "}"),
-    pair: ($) => seq(field("key", $.string), ":", field("value", $._expr)),
+    list: ($) =>
+      seq("[", optional(commaSep1($._inner_text)), optional(","), "]"),
+    dict: ($) =>
+      seq("{", optional(commaSep1($._inner_text)), optional(","), "}"),
+    pair: ($) =>
+      seq(field("key", $.string), ":", field("value", $._inner_text)),
 
     identifier: () => /[\w_]+/,
+
+    fn_call: ($) =>
+      seq(field("fn", $.identifier), field("args", $.argument_list)),
   },
 });
