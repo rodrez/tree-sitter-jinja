@@ -11,3 +11,14 @@
 {{ True }}
 {{ False }}
 {{ 42 }}
+
+{% some_call(test, test2) %}
+
+{% macro t2(param1, param2) %}
+
+    {{test}}
+
+{% endmacro %}
+
+
+{{ t2() }}

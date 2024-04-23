@@ -163,8 +163,16 @@
           "name": "expression_begin"
         },
         {
-          "type": "SYMBOL",
-          "name": "_inner_text"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_inner_text"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -173,22 +181,12 @@
       ]
     },
     "expression_begin": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{{"
-        }
-      ]
+      "type": "STRING",
+      "value": "{{"
     },
     "expression_end": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "}}"
-        }
-      ]
+      "type": "STRING",
+      "value": "}}"
     },
     "kwarg": {
       "type": "SEQ",
@@ -464,6 +462,14 @@
         "members": [
           {
             "type": "SYMBOL",
+            "name": "fn_call"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
             "name": "keyword"
           },
           {
@@ -488,75 +494,11 @@
           },
           {
             "type": "SYMBOL",
-            "name": "fn_call"
-          },
-          {
-            "type": "FIELD",
-            "name": "identifier",
-            "content": {
-              "type": "SYMBOL",
-              "name": "identifier"
-            }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_white_space"
-          },
-          {
-            "type": "SYMBOL",
             "name": "operator"
           },
           {
             "type": "SYMBOL",
             "name": "string"
-          }
-        ]
-      }
-    },
-    "_inner_text2": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "identifier",
-            "content": {
-              "type": "SYMBOL",
-              "name": "identifier"
-            }
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_white_space"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "float"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "boolean"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "integer"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "operator"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "string"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "list"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "dict"
           }
         ]
       }

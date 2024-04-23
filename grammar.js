@@ -53,9 +53,10 @@ module.exports = grammar({
     statement_begin: ($) => seq("{%", optional($.white_space_control)),
     statement_end: ($) => seq(optional($.white_space_control), "%}"),
 
-    expression: ($) => seq($.expression_begin, $._inner_text, $.expression_end),
-    expression_begin: () => seq("{{"),
-    expression_end: () => seq("}}"),
+    expression: ($) =>
+      seq($.expression_begin, optional($._inner_text), $.expression_end),
+    expression_begin: ($) => "{{",
+    expression_end: ($) => "}}",
 
     kwarg: ($) =>
       seq(field("key", $.identifier), "=", field("value", $._inner_text)),
@@ -108,49 +109,20 @@ module.exports = grammar({
       ),
     white_space_control: () => /[-+]/,
     _white_space: () => /\s+/,
-    // _expr: ($) =>
-    //   choice(
-    //     $.fn_call,
-    //     $.keyword,
-    //     $.list,
-    //     $.dict,
-    //     $.string,
-    //     $.boolean,
-    //     $.integer,
-    //     $.float,
-    //     $._white_space,
-    //     field("identifier", $.identifier),
-    //     $.operator,
-    //   ),
     _inner_text: ($) =>
       repeat1(
         choice(
+          $.fn_call,
+          $.identifier,
           $.keyword,
           $.float,
           $.integer,
           $.boolean,
           $.list,
           $.dict,
-          $.fn_call,
-          field("identifier", $.identifier),
-          $._white_space,
+          // $._white_space,
           $.operator,
           $.string,
-        ),
-      ),
-    _inner_text2: ($) =>
-      repeat1(
-        choice(
-          // $.parameters,
-          field("identifier", $.identifier),
-          $._white_space,
-          $.float,
-          $.boolean,
-          $.integer,
-          $.operator,
-          $.string,
-          $.list,
-          $.dict,
         ),
       ),
     integer: () => /-?\d+/,

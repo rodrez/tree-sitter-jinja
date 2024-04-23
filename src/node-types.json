@@ -2,18 +2,7 @@
   {
     "type": "argument_list",
     "named": true,
-    "fields": {
-      "identifier": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -32,6 +21,10 @@
         },
         {
           "type": "fn_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -69,18 +62,7 @@
   {
     "type": "dict",
     "named": true,
-    "fields": {
-      "identifier": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -99,6 +81,10 @@
         },
         {
           "type": "fn_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -127,18 +113,7 @@
   {
     "type": "expression",
     "named": true,
-    "fields": {
-      "identifier": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -168,6 +143,10 @@
           "named": true
         },
         {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "integer",
           "named": true
         },
@@ -189,16 +168,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "expression_begin",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "expression_end",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "fn_call",
@@ -240,16 +209,6 @@
     "type": "kwarg",
     "named": true,
     "fields": {
-      "identifier": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
       "key": {
         "multiple": false,
         "required": true,
@@ -262,7 +221,7 @@
       },
       "value": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "boolean",
@@ -311,18 +270,7 @@
   {
     "type": "list",
     "named": true,
-    "fields": {
-      "identifier": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
@@ -341,6 +289,10 @@
         },
         {
           "type": "fn_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -401,18 +353,7 @@
   {
     "type": "statement",
     "named": true,
-    "fields": {
-      "identifier": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -431,6 +372,10 @@
         },
         {
           "type": "fn_call",
+          "named": true
+        },
+        {
+          "type": "identifier",
           "named": true
         },
         {
@@ -630,6 +575,14 @@
     "named": false
   },
   {
+    "type": "expression_begin",
+    "named": true
+  },
+  {
+    "type": "expression_end",
+    "named": true
+  },
+  {
     "type": "extends",
     "named": false
   },
@@ -726,15 +679,7 @@
     "named": false
   },
   {
-    "type": "{{",
-    "named": false
-  },
-  {
     "type": "}",
-    "named": false
-  },
-  {
-    "type": "}}",
     "named": false
   }
 ]
