@@ -116,7 +116,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "boolean",
@@ -124,14 +124,6 @@
         },
         {
           "type": "dict",
-          "named": true
-        },
-        {
-          "type": "expression_begin",
-          "named": true
-        },
-        {
-          "type": "expression_end",
           "named": true
         },
         {
@@ -151,10 +143,6 @@
           "named": true
         },
         {
-          "type": "keyword",
-          "named": true
-        },
-        {
           "type": "list",
           "named": true
         },
@@ -164,6 +152,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "white_space_control",
           "named": true
         }
       ]
@@ -221,7 +213,7 @@
       },
       "value": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "boolean",
@@ -575,14 +567,6 @@
     "named": false
   },
   {
-    "type": "expression_begin",
-    "named": true
-  },
-  {
-    "type": "expression_end",
-    "named": true
-  },
-  {
     "type": "extends",
     "named": false
   },
@@ -679,7 +663,15 @@
     "named": false
   },
   {
+    "type": "{{",
+    "named": false
+  },
+  {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "}}",
     "named": false
   }
 ]

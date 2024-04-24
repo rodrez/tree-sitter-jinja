@@ -43,6 +43,8 @@ module.exports = grammar({
 
     // Content should be a sequence of nodes, anything _not and _text
     content: ($) => repeat(choice($._node, $.not, $.text)),
+    statement_begin: ($) => seq("{%", optional($.white_space_control)),
+    statement_end: ($) => seq(optional($.white_space_control), "%}"),
     statement: ($) =>
       seq(
         $.statement_begin,
@@ -50,13 +52,31 @@ module.exports = grammar({
         optional($._inner_text),
         $.statement_end,
       ),
-    statement_begin: ($) => seq("{%", optional($.white_space_control)),
-    statement_end: ($) => seq(optional($.white_space_control), "%}"),
 
+    expression_begin: ($) => seq("{{", optional($.white_space_control)),
+    expression_end: ($) => seq(optional($.white_space_control), "}}"),
     expression: ($) =>
-      seq($.expression_begin, optional($._inner_text), $.expression_end),
-    expression_begin: ($) => "{{",
-    expression_end: ($) => "}}",
+      seq(
+        "{{",
+        optional($.white_space_control),
+        optional(
+          repeat(
+            choice(
+              prec(1, $.fn_call),
+              $.identifier,
+              $.list,
+              $.dict,
+              $.string,
+              $.integer,
+              $.float,
+              $.boolean,
+              $.operator,
+            ),
+          ),
+        ),
+        optional($.white_space_control),
+        "}}",
+      ),
 
     kwarg: ($) =>
       seq(field("key", $.identifier), "=", field("value", $._inner_text)),
@@ -120,7 +140,7 @@ module.exports = grammar({
           $.boolean,
           $.list,
           $.dict,
-          // $._white_space,
+          $._white_space,
           $.operator,
           $.string,
         ),
